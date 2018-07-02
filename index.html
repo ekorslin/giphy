@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <form>
+        <input id="athlete"><br>
+        <button id="submit">Submit</button>
+    </form>
+        <div id="athletes-list"></div>
+        <div id="giphy"></div>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+        var topics = ["Kris Bryant", "Kyle Schwarber", "Jon Lester"];
+        for (var i = 0; i < topics.length; i++) {
+            var a = $("<button>");
+            a.addClass("list");
+            a.attr("data-name", topics[i]);
+            a.text(topics[i]);
+            $("#athletes-list").append(a);
+        }
+        $('#submit').click(function(event) {
+            event.preventDefault();
+            var newSubmission = $("#athlete").val();
+            topics.push(newSubmission);
+            $("#athletes-list").empty();
+        for (var i = 0; i < topics.length; i++) {
+            var a = $("<button>");
+            a.addClass("list");
+            a.attr("data-name", topics[i]);
+            a.text(topics[i]);
+            $("#athletes-list").append(a);
+        }
+    $( document ).ready(function() {
+    $(".list").on("click", function(event) {
+        event.preventDefault();
+    var topic = $(this).attr("data-name");
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        topic + "&api_key=Ef919J7omcME3LSqxfZOfullMlLt1kux";
+
+        $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+    .then(function(response) {
+        var results = response.data;
+        for (var i = 0; i < 10; i++) {
+            var gifDiv = $("<div class='item'>");
+            var rating = results[i].rating;
+            var p = $("<p>").text("Rating: " + rating);
+            var personImage = $("<img class='image'>");
+            personImage.attr("src", results[i].images.fixed_height_still.url);
+            personImage.attr("data-still", results[i].images.fixed_height_still.url);
+            personImage.attr("data-animate", results[i].images.fixed_height.url);
+            personImage.attr("data-state", "still");
+            gifDiv.append(personImage);
+            gifDiv.append(p);
+            $("#giphy").prepend(gifDiv)};
+    $(".image").on("click", function() {
+      var state = $(this).attr("data-state");
+      console.log(state);
+      if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+    })})})})})});
+    
+      </script>
+</body>
+</html>
